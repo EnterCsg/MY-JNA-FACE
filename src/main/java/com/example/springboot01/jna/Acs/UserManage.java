@@ -9,6 +9,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -120,7 +121,7 @@ public class UserManage {
 //    }
 
 
-    public static Map<String,Object> SearchUserInfo(int userID,String employeeNo,HCNetSDK hcNetSDK) throws JSONException{
+    public static Map<String,Object> SearchUserInfo(int userID,String employeeNo,HCNetSDK hcNetSDK) throws JSONException {
         Map<String,Object> faceInfo = new HashMap<String,Object>();
         HCNetSDK.BYTE_ARRAY ptrByteArray = new HCNetSDK.BYTE_ARRAY(1024);    //数组
         String strInBuffer = "POST /ISAPI/AccessControl/UserInfo/Search?format=json";
@@ -196,10 +197,9 @@ public class UserManage {
                 else if(dwState == HCNetSDK.NET_SDK_CONFIG_STATUS_SUCCESS)
                 {
                     ptrOutuff.read();
-                    String trim = "[" +new String(ptrOutuff.byValue).trim() + "]";
-                    System.out.println("查询人员成功, json:" + trim);
+                    String trim = "[" +new String(ptrOutuff.byValue, StandardCharsets.UTF_8).trim() + "]";
+                    System.out.println("查询人员成功, json UFT8:" + trim);
                     faceInfo = JSON.parseArray(trim, HashMap.class).get(0);
-
                     break;
                 }
                 else if(dwState == HCNetSDK.NET_SDK_CONFIG_STATUS_FINISH) {

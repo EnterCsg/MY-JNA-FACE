@@ -12,6 +12,7 @@ import org.json.JSONException;
 
 import java.io.*;
 import java.nio.ByteBuffer;
+import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
@@ -76,7 +77,8 @@ public class FMSGCallBack_V31 implements HCNetSDK.FMSGCallBack_V31 {
                         if (userInfo != null){
                             JSONObject o = (JSONObject) userInfo.get(0);
                             String name = (String) o.get("name");
-                            faceInfo.setUserName(StringUtils.toUTF8(name));
+                            faceInfo.setUserName(name);
+//                            faceInfo.setUserName(new String(name.getBytes("GBK"), StandardCharsets.UTF_8));
                         }
                     }
                 } catch (JSONException e) {
