@@ -66,9 +66,10 @@ public class AcsMain extends Thread{
 
 		hCNetSDK.NET_DVR_Init();
 		boolean i= hCNetSDK.NET_DVR_SetLogToFile(3, "..//sdklog", false);
-		
+
 		Boolean flag = Login(ip,"admin","gwkq1234",(short) 8000);	//登陆
 		if (flag){
+			System.out.println("ip地址为："+ip+"的设备登录成功");
 			//设置报警回调函数
 			if (fMSFCallBack_V31 == null) {
 				fMSFCallBack_V31 = new FMSGCallBack_V31(ip,hCNetSDK,lUserID);

@@ -65,7 +65,7 @@ public class FMSGCallBack_V31 implements HCNetSDK.FMSGCallBack_V31 {
                 faceInfo.setUserNo(userNo);
                 faceInfo.setFaceSwipingTime(faceTime);
 
-                String ip = this.ip;
+//                String ip = this.ip;
                 String location = (String) JnaProperRead.dataMap.get(ip);
                 faceInfo.setFaceSwipingAddress(location);
 
@@ -84,6 +84,7 @@ public class FMSGCallBack_V31 implements HCNetSDK.FMSGCallBack_V31 {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
+                System.out.println("ip地址为:"+ip);
                 System.out.println(faceInfo);
 
                 //调用接口
