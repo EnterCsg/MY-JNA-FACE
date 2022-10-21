@@ -57,6 +57,9 @@ public class FMSGCallBack_V31 implements HCNetSDK.FMSGCallBack_V31 {
                     return;
                 }
 
+                //byte[]数组 -> 字符串
+                String realIp = new String(pAlarmer.sDeviceIP, StandardCharsets.UTF_8).replace("\u0000", "");
+
                 //刷脸时间
                 SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                 String faceTime = sf.format(new Date());
@@ -66,7 +69,7 @@ public class FMSGCallBack_V31 implements HCNetSDK.FMSGCallBack_V31 {
                 faceInfo.setFaceSwipingTime(faceTime);
 
 //                String ip = this.ip;
-                String location = (String) JnaProperRead.dataMap.get(ip);
+                String location = (String) JnaProperRead.dataMap.get(realIp);
                 faceInfo.setFaceSwipingAddress(location);
 
                 try {
@@ -84,7 +87,7 @@ public class FMSGCallBack_V31 implements HCNetSDK.FMSGCallBack_V31 {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                System.out.println("ip地址为:"+ip);
+                System.out.println("ip地址为:"+realIp);
                 System.out.println(faceInfo);
 
                 //调用接口
@@ -240,81 +243,14 @@ public class FMSGCallBack_V31 implements HCNetSDK.FMSGCallBack_V31 {
     }
 
     private void sendHttpInfo(FaceInfo faceInfo) {
-//        HttpURLConnection con = null;
-//        BufferedReader buffer = null;
-//        StringBuffer resultBuffer = null;
-//
-//        try {
-//            System.out.println("开始调用http接口");
-//            URL url = new URL("http://10.186.96.5:23308/cqcs/warning/platform/api/attendance/attendancePush");
-////            URL url = new URL("http://93.37.0.190:18089/cqcs/warning/platform/api/getJna3");
-//            //得到连接对象
-//            con = (HttpURLConnection) url.openConnection();
-//            //设置请求类型
-//            con.setRequestMethod("POST");
-//            //设置Content-Type，此处根据实际情况确定
-//            con.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
-//            //允许写出
-//            con.setDoOutput(true);
-//            //允许读入
-//            con.setDoInput(true);
-//            //不使用缓存
-//            con.setUseCaches(false);
-//            OutputStream os = con.getOutputStream();
-//
-//
-////            Map paraMap = new HashMap();
-////            paraMap.put("type", "wx");
-////            paraMap.put("mchid", "10101");
-//            //组装入参
-//            os.write(("userNo="+faceInfo.getUserNo()+"&userName="+faceInfo.getUserName()
-//                    +"&faceSwipingTime="+faceInfo.getFaceSwipingTime()+"&faceSwipingAddress="+faceInfo.getFaceSwipingAddress()+"").getBytes());
-//
-////            os.write("".getBytes());
-//
-//            //得到响应码
-//            int responseCode = con.getResponseCode();
-//            System.out.println("响应码："+ responseCode);
-//            if (responseCode == HttpURLConnection.HTTP_OK) {
-//                //得到响应流
-//                InputStream inputStream = con.getInputStream();
-//                //将响应流转换成字符串
-//                resultBuffer = new StringBuffer();
-//                String line;
-//                buffer = new BufferedReader(new InputStreamReader(inputStream, "GBK"));
-////                while ((line = buffer.readLine()) != null) {
-////                    resultBuffer.append(line);
-////                }
-//
-//                while (true){
-//                    if((line = buffer.readLine()) != null)
-//                        resultBuffer.append(line);
-//                    else
-//                        break;
-//                }
-//
-//                System.out.println("result:" + resultBuffer.toString());
-//            }
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-
-
 
         String url = "http://10.186.96.5:18089/cqcs/warning/platform/api/warning/attendance/attendancePush";//指定URL
-//        String url = "http://93.37.1.190:18089/cqcs/warning/platform/api/getJna3";//指定URL
         Map<String, Object> map = new HashMap<>();//存放参数
         map.put("userNo", faceInfo.getUserNo());
         map.put("userName", faceInfo.getUserName());
         map.put("faceSwipingTime", faceInfo.getFaceSwipingTime());
         map.put("faceSwipingAddress", faceInfo.getFaceSwipingAddress());
         map.put("orgNo", JnaProperRead.orgNo);
-//        HashMap<String, String> headers = new HashMap<>();//存放请求头，可以存放多个请求头
-//        headers.put("xxx", xxx);
-        //发送get请求并接收响应数据
-//        String result= HttpUtil.createGet(url).addHeaders(headers).form(map).execute().body();
-        //发送post请求并接收响应数据
-//        String result= HttpUtil.createPost(url).addHeaders(headers).form(map).execute().body();
         String result= HttpUtil.createPost(url).form(map).execute().body();
         System.out.println("调用预警平台返回数据："+result);
 

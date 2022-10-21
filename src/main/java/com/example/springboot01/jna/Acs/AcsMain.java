@@ -81,6 +81,7 @@ public class AcsMain extends Thread{
 				}
 			}
 			Alarm.SetAlarm(lUserID,ip,hCNetSDK,lAlarmHandle);//报警布防
+//			Alarm.StartListen(ip,lListenHandle,hCNetSDK,fMSFCallBack_V31);//报警监听
 			while(true){
 				try {
 					Thread.sleep(3000000);

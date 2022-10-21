@@ -1,6 +1,6 @@
 package com.example.springboot01.jna.Acs;
 
-
+import com.example.springboot01.jna.NetSDKDemo.FMSGCallBack_V31;
 import com.example.springboot01.jna.NetSDKDemo.HCNetSDK;
 
 
@@ -32,14 +32,13 @@ public final class Alarm {
             }
         }
     }
-    //报警监听（布防和监听选其一）
-//    public static void StartListen() {
-//
-//        AcsMain.lListenHandle = AcsMain.hCNetSDK.NET_DVR_StartListen_V30("93.37.1.190", (short) 8000, fMSFCallBack_V31, null);
-//        if (AcsMain.lListenHandle == -1) {
-//            System.out.println("监听失败" + AcsMain.hCNetSDK.NET_DVR_GetLastError());
-//        } else {
-//            System.out.println("监听成功");
-//        }
-//    }
+//    报警监听（布防和监听选其一）
+    public static void StartListen(String ip, int lListenHandle, HCNetSDK hCNetSDK, FMSGCallBack_V31 fMSFCallBack_V31) {
+        lListenHandle = hCNetSDK.NET_DVR_StartListen_V30(ip, (short) 8000, fMSFCallBack_V31, null);
+        if (lListenHandle == -1) {
+            System.out.println("监听失败" + hCNetSDK.NET_DVR_GetLastError());
+        } else {
+            System.out.println("监听成功");
+        }
+    }
 }
